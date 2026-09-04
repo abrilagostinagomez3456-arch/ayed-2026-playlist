@@ -5,10 +5,11 @@ Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src
 ## Integrantes
 
 | Nombre | Mail | GitHub |
-| Abril Gómez | abrilagostinagomez3456@gmail.com | https:/ github.com/abrilagostinagomez3456-arch|
-| Iván Arce |xarce.ivan@gmail.com  | https://github.com/ivanarrce|
+| --- | --- | --- |
+| Abril Gómez | abrilagostinagomez3456@gmail.com | https://github.com/abrilagostinagomez3456-arch |
+| Iván Arce | xarce.ivan@gmail.com | https://github.com/ivanarrce |
 
-**Tema elegido:** Biblioteca musical (dejar uno)
+**Tema elegido:** Biblioteca musical 
 
 ## Cómo ejecutar
 
