@@ -1,6 +1,5 @@
-# src/main.py
 from src.config import TEMA
-from src.catalogo import obtener_canciones, buscar_cancion_por_id
+from src.catalogo import obtener_catalogo, buscar_por_id, consultar_versiones_recursivo
 
 TEMAS = {
     "pokedex": "Pokédex",
@@ -8,38 +7,49 @@ TEMAS = {
     "musica": "Biblioteca musical",
 }
 
-
 def pendiente():
     print("Todavía no está implementado. Completar en la entrega que corresponde.")
 
-
 def listar_catalogo():
-    """Operación 1 (Protocolo P01)."""
-    canciones = obtener_canciones()
     print("\n--- CATÁLOGO DE CANCIONES ---")
     print(f"{'ID':<4} | {'Título':<32} | {'Artista':<26} | {'Año':<4}")
     print("-" * 72)
-    for c in canciones:
-        print(f"{c['id']:<4} | {c['titulo']:<32} | {c['artista']:<26} | {c['anio']:<4}")
-    print(f"\nTotal: {len(canciones)} canciones.")
-
+    for c in obtener_catalogo():
+        print(f"{c.id:<4} | {c.titulo:<32} | {c.artista:<26} | {c.anio:<4}")
+    print(f"\nTotal: {len(obtener_catalogo())} canciones.")
 
 def ver_detalle():
-    """Operación 2 (Protocolo P02)."""
     entrada = input("\nIngrese el ID de la canción: ").strip()
-    es_entero = entrada.isdigit() or (entrada.startswith("-") and entrada[1:].isdigit())
-    if not es_entero:
+    if not (entrada.isdigit() or (entrada.startswith("-") and entrada[1:].isdigit())):
         print("Error: El ID debe ser un número entero.")
         return
-
-    cancion = buscar_cancion_por_id(int(entrada))
-    if cancion:
+    c = buscar_por_id(int(entrada))
+    if c:
         print("\n--- DETALLE DE LA CANCIÓN ---")
-        for clave, valor in cancion.items():
-            print(f"{clave.capitalize():<14}: {valor}")
+        print(c.detalle_completo())
     else:
         print(f"Aviso: No existe ninguna canción con el ID {entrada}.")
 
+def operacion_recursiva():
+    entrada = input("\nIngrese el ID de la canción base para buscar versiones derivadas: ").strip()
+    if not entrada.isdigit():
+        print("Error: Ingrese un ID numérico válido.")
+        return
+    cancion_id = int(entrada)
+    origen = buscar_por_id(cancion_id)
+    if not origen:
+        print(f"Aviso: Canción {cancion_id} no encontrada.")
+        return
+
+    print(f"\nCanción base: {origen.titulo} ({origen.artista})")
+    derivadas = consultar_versiones_recursivo(cancion_id)
+    if not derivadas:
+        print("-> No posee versiones derivadas registradas (caso base alcanzado).")
+    else:
+        print("Versiones encontradas:")
+        for nivel, deriv, tipo in derivadas:
+            indent = "  " * nivel
+            print(f"{indent}└── [{tipo.upper()}] ID {deriv.id}: {deriv.titulo} - {deriv.artista} ({deriv.anio})")
 
 def mostrar_menu():
     nombre = TEMAS.get(TEMA, TEMA or "(sin tema)")
@@ -48,13 +58,12 @@ def mostrar_menu():
     print("2. Ver detalle")
     print("3. Buscar")
     print("4. Ordenar")
-    print("5. Operación recursiva")
+    print("5. Operación recursiva (versiones derivadas)")
     print("6. Colección principal (equipo / menú / playlist)")
     print("7. Historial (pila)")
     print("8. Cola")
     print("9. Guardar / cargar archivos")
     print("0. Salir")
-
 
 def main():
     if TEMA not in TEMAS:
@@ -71,11 +80,12 @@ def main():
             listar_catalogo()
         elif opcion == "2":
             ver_detalle()
-        elif opcion in {"3", "4", "5", "6", "7", "8", "9"}:
+        elif opcion == "5":
+            operacion_recursiva()
+        elif opcion in {"3", "4", "6", "7", "8", "9"}:
             pendiente()
         else:
             print("Opción inválida.")
-
 
 if __name__ == "__main__":
     main()
