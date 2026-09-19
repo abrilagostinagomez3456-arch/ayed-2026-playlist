@@ -1,11 +1,23 @@
-CATALOGO = [
-    {"id": 1, "titulo": "De Música Ligera", "artista": "Soda Stereo", "duracion": "3:32"},
-    {"id": 2, "titulo": "Ji Ji Ji", "artista": "Patricio Rey", "duracion": "5:30"},
-    {"id": 3, "titulo": "Crimen", "artista": "Gustavo Cerati", "duracion": "3:52"},
-]
+class Cancion:
+    def __init__(self, id: int, titulo: str, artista: str, album: str, genero: str, anio: int, duracion_seg: int):
+        self.id = id
+        self.titulo = titulo
+        self.artista = artista
+        self.album = album
+        self.genero = genero
+        self.anio = anio
+        self.duracion_seg = duracion_seg
 
-def listar_catalogo():
-    print("\n=== Catálogo de Canciones ===")
-    for c in CATALOGO:
-        print(f"[{c['id']}] {c['titulo']} - {c['artista']} ({c['duracion']})")
-    print("=============================\n")
+    def __str__(self):
+        return f"[{self.id}] {self.titulo} - {self.artista} ({self.anio})"
+
+    def detalle_completo(self):
+        return (
+            f"ID:       {self.id}\n"
+            f"Título:   {self.titulo}\n"
+            f"Artista:  {self.artista}\n"
+            f"Álbum:    {self.album}\n"
+            f"Género:   {self.genero}\n"
+            f"Año:      {self.anio}\n"
+            f"Duración: {self.duracion_seg} seg"
+        )
