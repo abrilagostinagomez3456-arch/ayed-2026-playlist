@@ -11,7 +11,7 @@ class Cancion:
     def __str__(self):
         return f"[{self.id}] {self.titulo} - {self.artista} ({self.anio})"
 
-    def detalle_completo(self):
+    def detalle_completo(self) -> str:
         return (
             f"ID:       {self.id}\n"
             f"Título:   {self.titulo}\n"
