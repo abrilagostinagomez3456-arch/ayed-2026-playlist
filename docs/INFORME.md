@@ -13,10 +13,18 @@ Cada ítem del catálogo es una cancion compuesta por atributos identificatorios
 
 ## 3. Recursión (E2)
 
-- Función:
-- Caso base:
-- Caso recursivo:
-- Traza de un ejemplo real del dataset:
+- Función: `obtener_versiones_derivadas_rec(id_origen, relaciones, catalogo_dict, nivel)` en `src/dominio/arbol_versiones.py`.
+- Caso base: La canción consultada no posee derivaciones directas registradas (`derivadas_directas == []`), retornando una lista vacía `[]`.
+- Caso recursivo:Itera sobre las derivaciones directas encontradas, añade la canción derivada al resultado e invoca a sí misma pasando el ID de la hija con `nivel + 1` para buscar derivaciones sucesivas.
+- Traza de un ejemplo real del dataset (Canción ID 1: 'De Musica Ligera'):
+1. Llamada inicial: `obtener_versiones_derivadas_rec(id_origen=1, nivel=1)`
+   - Relación hallada: `cancion_id=62` ("De Musica Ligera (Unplugged)", tipo='live').
+   - Registra a nivel 1 la canción 62.
+2. Llamada recursiva: `obtener_versiones_derivadas_rec(id_origen=62, nivel=2)`
+   - Busca derivadas donde `version_de_id == 62`. No existen.
+   - Caso Base alcanzado: Retorna `[]`.
+3. Retorno y resolución:
+   - La llamada inicial une el resultado y retorna `[(1, Cancion(62), 'live')]`.
 
 ## 4. TADs (E3)
 
