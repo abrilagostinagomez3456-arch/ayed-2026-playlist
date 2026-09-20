@@ -1,5 +1,5 @@
 from src.config import TEMA
-from src.catalogo import obtener_catalogo, buscar_por_id, consultar_versiones_recursivo
+from src.dominio.biblioteca import Biblioteca, versiones_de
 
 TEMAS = {
     "pokedex": "Pokédex",
@@ -10,46 +10,47 @@ TEMAS = {
 def pendiente():
     print("Todavía no está implementado. Completar en la entrega que corresponde.")
 
-def listar_catalogo():
+def listar_catalogo(biblioteca: Biblioteca):
     print("\n--- CATÁLOGO DE CANCIONES ---")
     print(f"{'ID':<4} | {'Título':<32} | {'Artista':<26} | {'Año':<4}")
     print("-" * 72)
-    for c in obtener_catalogo():
+    for c in biblioteca.listar():
         print(f"{c.id:<4} | {c.titulo:<32} | {c.artista:<26} | {c.anio:<4}")
-    print(f"\nTotal: {len(obtener_catalogo())} canciones.")
+    print(f"\nTotal: {len(biblioteca.listar())} canciones.")
 
-def ver_detalle():
+def ver_detalle(biblioteca: Biblioteca):
     entrada = input("\nIngrese el ID de la canción: ").strip()
     if not (entrada.isdigit() or (entrada.startswith("-") and entrada[1:].isdigit())):
         print("Error: El ID debe ser un número entero.")
         return
-    c = buscar_por_id(int(entrada))
+    c = biblioteca.buscar(int(entrada))
     if c:
         print("\n--- DETALLE DE LA CANCIÓN ---")
         print(c.detalle_completo())
     else:
         print(f"Aviso: No existe ninguna canción con el ID {entrada}.")
 
-def operacion_recursiva():
-    entrada = input("\nIngrese el ID de la canción base para buscar versiones derivadas: ").strip()
+def operacion_recursiva(biblioteca: Biblioteca):
+    entrada = input("\nIngrese el ID de la canción base: ").strip()
     if not entrada.isdigit():
         print("Error: Ingrese un ID numérico válido.")
         return
     cancion_id = int(entrada)
-    origen = buscar_por_id(cancion_id)
+    origen = biblioteca.buscar(cancion_id)
     if not origen:
-        print(f"Aviso: Canción {cancion_id} no encontrada.")
+        print(f"Aviso: Canción con ID {cancion_id} no encontrada.")
         return
 
     print(f"\nCanción base: {origen.titulo} ({origen.artista})")
-    derivadas = consultar_versiones_recursivo(cancion_id)
-    if not derivadas:
-        print("-> No posee versiones derivadas registradas (caso base alcanzado).")
+    derivadas_ids = versiones_de(biblioteca, cancion_id)
+    if not derivadas_ids:
+        print("-> No posee versiones derivadas (caso base alcanzado).")
     else:
-        print("Versiones encontradas:")
-        for nivel, deriv, tipo in derivadas:
-            indent = "  " * nivel
-            print(f"{indent}└── [{tipo.upper()}] ID {deriv.id}: {deriv.titulo} - {deriv.artista} ({deriv.anio})")
+        print(f"Versiones derivadas encontradas (IDs {derivadas_ids}):")
+        for v_id in derivadas_ids:
+            c = biblioteca.buscar(v_id)
+            if c:
+                print(f"  └── [{c.id}] {c.titulo} - {c.artista} ({c.anio})")
 
 def mostrar_menu():
     nombre = TEMAS.get(TEMA, TEMA or "(sin tema)")
@@ -70,6 +71,7 @@ def main():
         print("Seteá TEMA en src/config.py: 'pokedex', 'recetario' o 'musica'.")
         return
 
+    biblioteca = Biblioteca()
     opcion = None
     while opcion != "0":
         mostrar_menu()
@@ -77,11 +79,11 @@ def main():
         if opcion == "0":
             print("Chau.")
         elif opcion == "1":
-            listar_catalogo()
+            listar_catalogo(biblioteca)
         elif opcion == "2":
-            ver_detalle()
+            ver_detalle(biblioteca)
         elif opcion == "5":
-            operacion_recursiva()
+            operacion_recursiva(biblioteca)
         elif opcion in {"3", "4", "6", "7", "8", "9"}:
             pendiente()
         else:
