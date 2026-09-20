@@ -12,19 +12,18 @@ Qué es un ítem del catálogo. Qué es mutable y qué no (E1). Cómo se relacio
 Cada ítem del catálogo es una cancion compuesta por atributos identificatorios (`id`, `titulo`, `artista`, `album`, `genero`, `anio`, `duracion_seg`). En esta primera etapa, cada registro utiliza campos de tipos inmutables (`int`, `str`) para garantizar la integridad de sus datos, modelados dentro de diccionarios que residen en una lista mutable (`list`) nativa para permitir la administración del catálogo en memoria. Hacia adelante, el catálogo actuará como repositorio base desde donde se seleccionarán elementos para armar la playlist (colección principal sobre `ListaEnlazada`), mientras que las reproducciones pasarán al Historial mediante una `Pila` (LIFO) y las canciones pendientes se programarán en la `Cola` de reproducción (FIFO).
 
 ## 3. Recursión (E2)
+Función: `versiones_de(versionable, id_cancion)` en `src/dominio/biblioteca.py`.
+Caso base: Si la canción evaluada no posee derivaciones directas (`if not directas:`), retorna `[]`.
+Caso recursivo: Obtiene las versiones directas, las agrega al resultado y ejecuta recursivamente `versiones_de(versionable, v)` acumulando las sub-versiones.
 
-- Función: `obtener_versiones_derivadas_rec(id_origen, relaciones, catalogo_dict, nivel)` en `src/dominio/arbol_versiones.py`.
-- Caso base: La canción consultada no posee derivaciones directas registradas (`derivadas_directas == []`), retornando una lista vacía `[]`.
-- Caso recursivo:Itera sobre las derivaciones directas encontradas, añade la canción derivada al resultado e invoca a sí misma pasando el ID de la hija con `nivel + 1` para buscar derivaciones sucesivas.
-- Traza de un ejemplo real del dataset (Canción ID 1: 'De Musica Ligera'):
-1. Llamada inicial: `obtener_versiones_derivadas_rec(id_origen=1, nivel=1)`
-   - Relación hallada: `cancion_id=62` ("De Musica Ligera (Unplugged)", tipo='live').
-   - Registra a nivel 1 la canción 62.
-2. Llamada recursiva: `obtener_versiones_derivadas_rec(id_origen=62, nivel=2)`
-   - Busca derivadas donde `version_de_id == 62`. No existen.
-   - Caso Base alcanzado: Retorna `[]`.
-3. Retorno y resolución:
-   - La llamada inicial une el resultado y retorna `[(1, Cancion(62), 'live')]`.
+Traza para 'De Musica Ligera' (id 1): según `versiones.csv`, 62 es versión directa de 1.
+- Llamada 1: `versiones_de(biblioteca, 1)`
+  - `directas = [62]`
+  - `resultado = [62] + versiones_de(biblioteca, 62)`
+- Llamada 2: `versiones_de(biblioteca, 62)`
+  - `directas = []` (caso base: la canción 62 no tiene derivados)
+  - Devuelve `[]`
+- Resultado final: `[62] + [] = [62]` (Canción ID 62: "De Musica Ligera (Unplugged)").
 
 ## 4. TADs (E3)
 
