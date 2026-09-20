@@ -8,14 +8,14 @@ Mínimos: 8 casos escritos en E2; ejecutados en E3; 15 de regresión en E6 (pila
 
 | ID | Entrega | Acción (pasos en el CLI) | Datos | Resultado esperado | Resultado | Notas |
 |---|---|---|---|---|---|---|
-| P01 | E1 | Arrancar el programa y listar catálogo | dataset de la cátedra | lista no vacía, sin traceback | pasa | Verificado en E1 |
-| P02 | E1 | Elegir un ítem inexistente | id = -1 | mensaje claro, el menú sigue | pasa | Verificado en E1 |
-| P03 | E2 | Operación recursiva sobre un ítem con cadena | id = 1 ("De Musica Ligera") | imprime la versión derivada ID 62 (live) | no corrido | Redactado para E2 |
-| P04 | E2 | Operación recursiva sobre un ítem sin derivados | id = 2 ("Persiana Americana") | mensaje informando caso base sin derivados | no corrido | Redactado para E2 |
-| P05 | E3 | Agregar a la colección principal hasta el tope | playlist con más elementos del límite | falla con excepción propia de colección llena | no corrido | Para E3 |
-| P06 | E3 | Desapilar historial vacío | pila vacía | excepción propia capturada, menú sigue | no corrido | Para E3 |
-| P07 | E3 | Desencolar cola vacía | cola vacía | excepción propia capturada, menú sigue | no corrido | Para E3 |
-| P08 | E3 | Listar colección con el iterador | 2+ ítems | el orden coincide con las inserciones | no corrido | Para E3 |
+| P01 | E1 | Arrancar el programa y listar catálogo (opción 1) | dataset de la cátedra | lista no vacía, sin traceback | pasa | Verificado en E1 |
+| P02 | E1 | Buscar un ítem inexistente (opción 2) | id = -1 | mensaje claro, el menú sigue | pasa | Verificado en E1 |
+| P03 | E2 | Recursión sobre un ítem CON cadena (opción 5) | id = 1 ("De Musica Ligera") | imprime la versión derivada ID 62 | no corrido | Redactado para E2 |
+| P04 | E2 | Recursión sobre un ítem SIN derivados (opción 5) | id = 2 ("Persiana Americana") | informa caso base sin derivados | no corrido | Redactado para E2 |
+| P05 | E2 | Ver el detalle de un ítem que existe (opción 2) | id = 1 | muestra todos sus datos | no corrido | Redactado para E2 |
+| P06 | E2 | Ver el detalle de un ítem que NO existe (opción 2) | id = 999 | mensaje claro, no se corta el programa | no corrido | Redactado para E2 |
+| P07 | E2 | Elegir una opción de menú inválida | opción = "9z" | vuelve a mostrar el menú | no corrido | Redactado para E2 |
+| P08 | E2 | Pasar enter vacío en el menú | enter vacío | no explota; vuelve a preguntar | no corrido | Redactado para E2 |
 | P09 | E4 | Búsqueda lineal de un nombre que existe |  | lo encuentra |  |  |
 | P10 | E4 | Búsqueda lineal de un nombre que no existe |  | no encontrado, sin traceback |  |  |
 | P11 | E4 | Búsqueda binaria con catálogo desordenado |  | avisa o reordena; no da un falso hit |  |  |
