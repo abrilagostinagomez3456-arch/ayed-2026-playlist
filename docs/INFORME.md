@@ -25,15 +25,18 @@ Traza para 'De Musica Ligera' (id 1): según `versiones.csv`, 62 es versión dir
   - Devuelve `[]`
 - Resultado final: `[62] + [] = [62]` (Canción ID 62: "De Musica Ligera (Unplugged)").
 
-## 4. TADs (E3)
+#### 4. TADs (E3)
 
 | TAD | Operaciones | Invariante |
-| --- | --- | --- |
-| ListaEnlazada |  |  |
-| Pila |  |  |
-| Cola |  |  |
+|---|---|---|
+| ListaEnlazada | `insertar_al_inicio`, `insertar_al_final`, `buscar`, `eliminar`, `tamanio`, `esta_vacia`, `__iter__` | Encadenamiento lineal de objetos `Nodo`. `_cabeza` apunta al primer nodo o `None` si está vacía; `_tamanio` refleja fielmente el número de nodos. |
+| Pila | `apilar`, `desapilar`, `ver_tope`, `esta_vacia` | Estructura LIFO (Last-In, First-Out). Las operaciones se efectúan siempre en la cabeza de la `ListaEnlazada`. Desapilar o ver tope en vacío lanza `PilaVaciaError`. |
+| Cola | `encolar`, `desencolar`, `ver_frente`, `esta_vacia` | Estructura FIFO (First-In, First-Out). Inserción al final y extracción desde la cabeza de la `ListaEnlazada`. Desencolar o ver frente en vacío lanza `ColaVaciaError`. |
 
-Dónde se usa cada uno en el dominio.
+Dónde se usa cada uno en el dominio:
+- ListaEnlazada: Estructura subyacente de la colección principal (`Playlist`), con tope máximo de 6 elementos.
+- Pila: Modela el historial de canciones reproducidas, permitiendo deshacer reproducciones.
+- Cola: Modela la cola de reproducción para planificar los temas siguientes en orden de llegada.
 
 ## 5. Complejidad (E4)
 
